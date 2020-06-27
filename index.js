@@ -27,8 +27,8 @@ const appendVisualizeBtn = () => {
 
 const appendModal = (index) => {
 
-  if (document.getElementById(`chart-${index}`)) {
-    document.getElementById(`chart-${index}`).remove();
+  if (document.getElementById(`chart-div-${index}`)) {
+    document.getElementById(`chart-div-${index}`).remove();
   }
 
   let modal = document.createElement("div");
