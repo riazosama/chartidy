@@ -112,33 +112,7 @@ const onDone = (index) => {
         yAxisArray.push(value[tableHeadings[yAxis - 1]]);
       }
 
-      // create chart
-      if (!document.getElementById(`chart-${index}`)) {
-        const chartWithData = document.createElement("canvas");
-        chartWithData.id = `chart-${index}`;
-
-        chartWithData.getContext("2d");
-
-        new Chart(chartWithData, {
-          type: 'line',
-          data: {
-            labels: xAxisArray,
-            datasets: [{
-              label: `${tableHeadings[xAxis - 1]} Vs ${tableHeadings[yAxis - 1]}`,
-              backgroundColor: "red",
-              borderColor: "red",
-              data: yAxisArray.map(r => r.replace(/,/g, '')),
-              fill: false,
-            }]
-          },
-          options: {
-            responsive: true
-          }
-        });
-
-        table.parentNode.insertBefore(chartWithData, table.nextSibling);
-      }
-
+      appendChart(index, xAxisArray, yAxisArray, xAxis, yAxis, tableHeadings);
 
       let modal = document.getElementById(`modal-${index}`);
       modal.remove();
@@ -157,4 +131,34 @@ const onDone = (index) => {
 
   }
 };
+
+const appendChart = (index, xAxisArray, yAxisArray, xAxis, yAxis, tableHeadings) => {
+  const table = document.getElementById(`table-${index}`);
+  if (!document.getElementById(`chart-${index}`)) {
+    const chartWithData = document.createElement("canvas");
+    chartWithData.id = `chart-${index}`;
+
+    chartWithData.getContext("2d");
+
+    new Chart(chartWithData, {
+      type: 'line',
+      data: {
+        labels: xAxisArray,
+        datasets: [{
+          label: `${tableHeadings[xAxis - 1]} Vs ${tableHeadings[yAxis - 1]}`,
+          backgroundColor: "red",
+          borderColor: "red",
+          data: yAxisArray.map(r => r.replace(/,/g, '')),
+          fill: false,
+        }]
+      },
+      options: {
+        responsive: true
+      }
+    });
+
+    table.parentNode.insertBefore(chartWithData, table.nextSibling);
+  }
+};
+
 
