@@ -8,7 +8,6 @@
       "matches": ["https://in.finance.yahoo.com/quote/*", "https://markets.businessinsider.com/index/historical-prices/*"],
       "js": ["index.js", "Chart.bundle.min.js", "parseTable.js"],
       "css": ["index.css", "Chart.min.css"],
-      "html": ["index.html"],
       "run_at": "document_end"
     }
   ],

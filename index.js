@@ -135,6 +135,22 @@ const onDone = (index) => {
 const appendChart = (index, xAxisArray, yAxisArray, xAxis, yAxis, tableHeadings) => {
   const table = document.getElementById(`table-${index}`);
   if (!document.getElementById(`chart-${index}`)) {
+
+    const chartDiv = document.createElement("div");
+    chartDiv.id = `chart-div-${index}`;
+    chartDiv.style.display = "flex";
+    chartDiv.style.flexDirection = "column";
+
+    const chartInfoDiv = document.createElement("div");
+    chartInfoDiv.style.display = "flex";
+    chartInfoDiv.style.justifyContent = "space-between";
+    chartInfoDiv.innerHTML = `
+      <h4>${tableHeadings[xAxis - 1]} Vs ${tableHeadings[yAxis - 1]}</h4>
+      <img style="cursor: pointer" id="delete-chart-${index}" width="20"
+       src="https://www.flaticon.com/premium-icon/icons/svg/2920/2920658.svg" alt="close">
+    `;
+    chartDiv.appendChild(chartInfoDiv);
+
     const chartWithData = document.createElement("canvas");
     chartWithData.id = `chart-${index}`;
 
@@ -157,7 +173,16 @@ const appendChart = (index, xAxisArray, yAxisArray, xAxis, yAxis, tableHeadings)
       }
     });
 
-    table.parentNode.insertBefore(chartWithData, table.nextSibling);
+    chartDiv.appendChild(chartWithData);
+    table.parentNode.insertBefore(chartDiv, table.nextSibling);
+    deleteChart(index);
+  }
+};
+
+const deleteChart = (index) => {
+  const clear = document.getElementById(`delete-chart-${index}`);
+  clear.onclick = () => {
+    document.getElementById(`chart-div-${index}`).remove();
   }
 };
 
