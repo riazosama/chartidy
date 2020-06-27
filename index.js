@@ -43,10 +43,12 @@ const appendModal = (index) => {
           <div class="chart-flex chart-flex-column">
               <p class="chart-modal-content-p chart-mb-5">X-Axis Column</p>
               <input id="x-${index}" class="chart-modal-content-input chart-mr-10" type="text">
+              <small id="heading-name-x-${index}"></small>
           </div>
           <div class="chart-flex chart-flex-column">
               <p class="chart-modal-content-p chart-mb-5">Y-Axis Column</p>
               <input id="y-${index}" class="chart-modal-content-input chart-mr-10" type="text">
+              <small id="heading-name-y-${index}"></small>
           </div>
       </div>
       
@@ -61,7 +63,6 @@ const appendModal = (index) => {
   // Append inside Body Tag
   let body = document.getElementsByTagName("body")[0];
   body.appendChild(modal);
-
   // Close Btn Functionality
   closeModal(index, modal);
 
@@ -87,6 +88,11 @@ const onDone = (index) => {
   const table = document.getElementById(`table-${index}`);
   const doneBtn = document.getElementById(`done-${index}`);
 
+  const tableHeadings = getHeadings(table);
+  const headingLength = tableHeadings.length;
+
+  setColumnNameInRealTime(index, tableHeadings);
+
   doneBtn.onclick = () => {
 
     // fetch entered values of XAxis Column and YAxis Column
@@ -95,9 +101,6 @@ const onDone = (index) => {
 
     const xAxisArray = [];
     const yAxisArray = [];
-
-    const tableHeadings = getHeadings(table);
-    const headingLength = tableHeadings.length;
 
     if (xAxis <= headingLength && yAxis <= headingLength && xAxis !== yAxis && xAxis !== 0 && yAxis !== 0) {
       const errorMsg = document.getElementById("error");
@@ -130,6 +133,24 @@ const onDone = (index) => {
     }
 
   }
+};
+
+const setColumnNameInRealTime = (index, headings) => {
+
+  const xAxisElement = document.getElementById(`x-${index}`);
+  const yAxisElement = document.getElementById(`y-${index}`);
+
+  xAxisElement.onkeyup = (e) => {
+    let xAxis = e.target.value;
+    document.getElementById(`heading-name-x-${index}`).innerHTML =
+      xAxis <= 0 || xAxis > headings.length || xAxis === "" ? "" : headings[xAxis - 1];
+  };
+
+  yAxisElement.onkeyup = (e) => {
+    let yAxis = e.target.value;
+    document.getElementById(`heading-name-y-${index}`).innerHTML =
+      yAxis <= 0 || yAxis > headings.length || yAxis === "" ? "" : headings[yAxis - 1];
+  };
 };
 
 const appendChart = (index, xAxisArray, yAxisArray, xAxis, yAxis, tableHeadings) => {
