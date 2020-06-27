@@ -1,15 +1,4 @@
 // add button on DOM Load event.
-
-const mapper = {
-  1: "Date",
-  2: "Open",
-  3: "High",
-  4: "Low",
-  5: "Close*",
-  6: "Adj. close**",
-  7: "Volume"
-};
-
 window.onload = function () {
   appendVisualizeBtn();
 };
@@ -107,7 +96,8 @@ const onDone = (index) => {
     const xAxisArray = [];
     const yAxisArray = [];
 
-    const headingLength = getHeadings(table).length;
+    const tableHeadings = getHeadings(table);
+    const headingLength = tableHeadings.length;
 
     if (xAxis <= headingLength && yAxis <= headingLength && xAxis !== yAxis && xAxis !== 0 && yAxis !== 0) {
       const errorMsg = document.getElementById("error");
@@ -118,9 +108,10 @@ const onDone = (index) => {
       const data = parseTable(table);
 
       for (const value of data) {
-        xAxisArray.push(value[mapper[xAxis]]);
-        yAxisArray.push(value[mapper[yAxis]]);
+        xAxisArray.push(value[tableHeadings[xAxis - 1]]);
+        yAxisArray.push(value[tableHeadings[yAxis - 1]]);
       }
+
       // create chart
       if (!document.getElementById(`chart-${index}`)) {
         const chartWithData = document.createElement("canvas");
@@ -133,7 +124,7 @@ const onDone = (index) => {
           data: {
             labels: xAxisArray,
             datasets: [{
-              label: `${mapper[xAxis]} Vs ${mapper[yAxis]}`,
+              label: `${tableHeadings[xAxis - 1]} Vs ${tableHeadings[yAxis - 1]}`,
               backgroundColor: "red",
               borderColor: "red",
               data: yAxisArray.map(r => r.replace(/,/g, '')),
