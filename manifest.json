@@ -1,0 +1,21 @@
+{
+  "name": "Chartidy",
+  "version": "1.0",
+  "description": "Visual table data using charts",
+  "permissions": ["activeTab"],
+  "content_scripts": [
+    {
+      "matches": ["https://in.finance.yahoo.com/quote/*", "https://markets.businessinsider.com/index/historical-prices/*"],
+      "js": ["index.js", "Chart.bundle.min.js", "parseTable.js"],
+      "css": ["index.css", "Chart.min.css"],
+      "html": ["index.html"],
+      "run_at": "document_end"
+    }
+  ],
+  "content_security_policy": "script-src 'self'; object-src",
+  "browser_action": {
+    "default_title": "Chartidy",
+    "default_icon": "icon.png"
+  },
+  "manifest_version": 2
+}
