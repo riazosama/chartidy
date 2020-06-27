@@ -108,7 +108,6 @@ const onDone = (index) => {
     const yAxisArray = [];
 
     const headingLength = getHeadings(table).length;
-    console.log(headingLength);
 
     if (xAxis <= headingLength && yAxis <= headingLength && xAxis !== yAxis && xAxis !== 0 && yAxis !== 0) {
       const errorMsg = document.getElementById("error");
